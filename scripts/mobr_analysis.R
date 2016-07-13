@@ -97,7 +97,8 @@ write.csv(dat.good, file=paste('./data/filtered_data/', fileprefix, '_filtered.c
 
 
 # gentry ------------------------------------------------------------------
-
+# ToDo: make sure to double track for multiple stems problem
+# ToDo: make sure to look out for non-integer count values 
 dat = fetch('Gentry')
 
 # examine counts table 
