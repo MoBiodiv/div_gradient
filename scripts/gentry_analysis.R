@@ -2,6 +2,12 @@ source('./mobr/R/mobr.R')
 
 gentry = read.csv('./data/filtered_data/gentry.csv')
 
+# enforce a minimum number of individuals per site
+min_N = 120
+
+N = tapply(gentry$count, list(gentry$site_id), sum)
+gentry = gentry[as.character(gentry$site_id) %in% names(N[N > min_N]), ] 
+
 site_line = paste(gentry$site_id, gentry$line, sep='_')
 gentry_comm = tapply(gentry$count, 
                      list(site_line, gentry$species_id),
@@ -15,8 +21,11 @@ gentry_env = gentry[row_indices,
                       'precip')]
 row.names(gentry_env) = paste(gentry_env$site_id, gentry_env$line, sep='_')
 
+gentry_env$abslat = abs(gentry_env$lat)
+
 gentry_comm = make_comm_obj(gentry_comm, gentry_env) 
-                            
-gentry_tst = get_delta_stats(gentry_comm, 'lat', type='continuous',
-                             log_scale=T, inds=10, nperm=10) 
+
+gentry_tst = get_delta_stats(gentry_comm, env_var='abslat', group_var='site_id',  
+                             type='continuous', log_scale=T, inds=10, nperm=1000) 
                               
+save(gentry_tst, file='./results/gentry.tst.Rdata')
