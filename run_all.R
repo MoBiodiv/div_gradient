@@ -10,3 +10,4 @@ Rscript('./scripts/empir_data_filering')
 
 # run analysis
 system('Rscript ./scripts/mobr_analysis.R', wait=F)
+system('Rscript ./scripts/gentry_analysis.R', wait=F)
