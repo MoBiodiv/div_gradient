@@ -1,4 +1,5 @@
 source('./mobr/R/mobr.R')
+source('./mobr/R/mobr_boxplots.R')
 
 gentry = read.csv('./data/filtered_data/gentry.csv')
 
@@ -29,3 +30,18 @@ gentry_tst = get_delta_stats(gentry_comm, env_var='abslat', group_var='site_id',
                              type='continuous', log_scale=T, inds=10, nperm=1000) 
                               
 save(gentry_tst, file='./results/gentry.tst.Rdata')
+
+load('./results/gentry_tst_100.Rdata')
+
+pdf('./figs/gentry_plots.pdf')
+
+#plotSADs(comm, 'abslat')
+#boxplot(gentry_comm)
+plot(gentry_comm$env$abslat, rowSums(gentry_comm$comm >0))
+plot(gentry_comm$env$abslat, rowSums(gentry_comm$comm))
+#plotSNpie(comm, 'abslat')
+#plot_rarefy(gentry_tst)
+plot(gentry_tst)
+dev.off()
+
+

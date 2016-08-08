@@ -2,6 +2,7 @@ library(maps)
 library(ecoretriever)
 #library(mobr)
 source('./mobr/R/mobr.R')
+source('./mobr/R/mobr_boxplots.R')
 source('./scripts/div_functions.R')
 
 dir.create('./data/filtered_data')
@@ -171,3 +172,17 @@ tst = get_delta_stats(comm, 'groups', ref_group='bci', type='discrete',
                       log_scale=TRUE, inds = 10, nperm=1000)
 
 save(tst, file='./results/tst.Rdata')
+
+load('./results/tst.Rdata')
+
+pdf('./figs/bci_vs_scbi_plots.pdf')
+
+plotSADs(comm, 'groups')
+boxplot(comm)
+plotSNpie(comm, 'groups')
+plot_rarefy(tst)
+plot(tst)
+dev.off()
+
+
+
